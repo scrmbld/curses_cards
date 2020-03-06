@@ -1,3 +1,4 @@
+//all card sprites are 11 high by 14 wide
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -32,16 +33,52 @@ void print_sprite (int x, int y, vector<vector<char>> sprite) {
 	}
 }
 
+void load_suit(vector<vector<vector<char>>> &tgt, string path) {
+	tgt.clear();
+	tgt.resize(13);
+	vector<vector<char>> card;
+	load_sprite(card, "sprites/hearts.txt");
+
+	for (int i = 0; i < 13; i++) {
+		string s;
+		if (i + 1 == 1) s = 'a';
+		else if (i + 1 == 11) s = 'j';
+		else if (i + 1 == 12) s = 'q';
+		else if (i + 1 == 13) s = 'k';
+		else s = to_string(i + 1);
+		vector<vector<char>> col;
+		int numx = 0, numy = 0;
+		for (int j = 0; j < card.size(); j++) {
+			vector<char> row;
+			for (int k = 0; k < card.at(j).size(); k++) {
+				if (card.at(j).at(k) == '1') {
+					for (int l = 0; l < s.size(); l++) {
+						row.push_back(s.at(l));
+						cout << s << endl;
+						k++;
+					}
+				}
+				row.push_back(card.at(j).at(k));
+			}
+			col.push_back(row);
+		}
+
+		tgt.at(i) = col;
+	}
+}
+
 int main(int argc, char** argv) {
-        int key;
         initscr();
-        printw("Hackerman");
-        refresh();
-        noecho();
+		noecho();
+		vector<vector<vector<char>>> hearts;
+		load_suit(hearts, "sprites/hearts.txt");
+		mvprintw(1, 1, "%d", hearts.at(0).size());
+		for (int i = 0; i < hearts.size(); i++) {
+			print_sprite(1 + i * 10, 1, hearts.at(i));
+		}
 		
-		vector<vector<char>> blank;
-		load_sprite(blank, "sprites/blank.txt");
-		print_sprite(1, 1, blank);
+		
+
 		refresh();
 		getch();
 		clear;

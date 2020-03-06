@@ -37,7 +37,7 @@ void load_suit(vector<vector<vector<char>>> &tgt, string path) {
 	tgt.clear();
 	tgt.resize(13);
 	vector<vector<char>> card;
-	load_sprite(card, "sprites/hearts.txt");
+	load_sprite(card, path);
 
 	for (int i = 0; i < 13; i++) {
 		string s;
@@ -70,11 +70,27 @@ void load_suit(vector<vector<vector<char>>> &tgt, string path) {
 int main(int argc, char** argv) {
         initscr();
 		noecho();
-		vector<vector<vector<char>>> hearts;
+		
+		//loading sprites
+		vector<vector<vector<char>>> hearts, clubs, spades, diamonds;
 		load_suit(hearts, "sprites/hearts.txt");
+		load_suit(clubs, "sprites/clubs.txt");
+		load_suit(spades, "sprites/spades.txt");
+		load_suit(diamonds, "sprites/diamonds.txt");
 		mvprintw(1, 1, "%d", hearts.at(0).size());
+		
+		
 		for (int i = 0; i < hearts.size(); i++) {
 			print_sprite(1 + i * 10, 1, hearts.at(i));
+		}
+		for (int i = 0; i < hearts.size(); i++) {
+			print_sprite(1 + i * 10, 15, diamonds.at(i));
+		}
+		for (int i = 0; i < hearts.size(); i++) {
+			print_sprite(1 + i * 10, 30, spades.at(i));
+		}
+		for (int i = 0; i < hearts.size(); i++) {
+			print_sprite(1 + i * 10, 45, clubs.at(i));
 		}
 		
 		

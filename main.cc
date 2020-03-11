@@ -54,7 +54,6 @@ void load_suit(vector<vector<vector<char>>> &tgt, string path) {
 				if (card.at(j).at(k) == '1') {
 					for (int l = 0; l < s.size(); l++) {
 						row.push_back(s.at(l));
-						cout << s << endl;
 						k++;
 					}
 				}
@@ -66,6 +65,7 @@ void load_suit(vector<vector<vector<char>>> &tgt, string path) {
 		tgt.at(i) = col;
 	}
 }
+
 
 int main(int argc, char** argv) {
         initscr();
@@ -80,21 +80,6 @@ int main(int argc, char** argv) {
 		mvprintw(1, 1, "%d", hearts.at(0).size());
 		
 		
-		for (int i = 0; i < hearts.size(); i++) {
-			print_sprite(1 + i * 10, 1, hearts.at(i));
-		}
-		for (int i = 0; i < hearts.size(); i++) {
-			print_sprite(1 + i * 10, 15, diamonds.at(i));
-		}
-		for (int i = 0; i < hearts.size(); i++) {
-			print_sprite(1 + i * 10, 30, spades.at(i));
-		}
-		for (int i = 0; i < hearts.size(); i++) {
-			print_sprite(1 + i * 10, 45, clubs.at(i));
-		}
-		
-		
-
 		refresh();
 		getch();
 		clear;

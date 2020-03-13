@@ -2,9 +2,13 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <cstdlib>
 #include <fstream>
 #include <curses.h>
 #include <gtest/gtest.h>
+#include "cards.h"
+#include "deck.h"
+#include "player.h"
 using namespace std;
 
 void load_sprite(vector<vector<char>> &tgt, string path) {
@@ -16,7 +20,7 @@ void load_sprite(vector<vector<char>> &tgt, string path) {
 		getline(ins, s);
 		vector<char> vec;
 		if (!ins) break;
-		
+
 		for (char c : s) {
 			vec.push_back(c);
 		}
@@ -68,23 +72,51 @@ void load_suit(vector<vector<vector<char>>> &tgt, string path) {
 
 
 int main(int argc, char** argv) {
-        initscr();
-		noecho();
+	
+	//creating players
+	vector<Player> players;
+	Player dealer(5000, "Dealer");
+	int player_count;
+	while (true) {
+		cout << "How many players are there? (1-6)\n";
+		cin >> player_count;
+		if (player_count < 1 || player_count > 6) {
+			cout << "Please enter a number between 1 and 6\n";
+			continue;
+		}
 		
-		//loading sprites
-		vector<vector<vector<char>>> hearts, clubs, spades, diamonds;
-		load_suit(hearts, "sprites/hearts.txt");
-		load_suit(clubs, "sprites/clubs.txt");
-		load_suit(spades, "sprites/spades.txt");
-		load_suit(diamonds, "sprites/diamonds.txt");
-		mvprintw(1, 1, "%d", hearts.at(0).size());
-		
-		
-		refresh();
-		getch();
-		clear;
-		endwin();
-		system("clear");
+		//input player names
+		for (int i = 0; i < player_count; i++) {
+			cout << "Enter a name for player " << i << endl;
+			cin >> ws;//eat whitespace
+			string s;
+			getline(cin, s);
+			players.push_back(Player(1000, s));
+		}
+		break;
+	}
 
+	//start ncurses
+	initscr();
+	noecho();
+
+	//loading sprites
+	vector<vector<vector<char>>> hearts, clubs, spades, diamonds;
+	load_suit(hearts, "sprites/hearts.txt");
+	load_suit(clubs, "sprites/clubs.txt");
+	load_suit(spades, "sprites/spades.txt");
+	load_suit(diamonds, "sprites/diamonds.txt");
+	mvprintw(1, 1, "%d", hearts.at(0).size());
+
+
+	refresh();
+	getch();
+	clear;
+	endwin();
+	system("clear");
+	for (Player p : players) {
+		cout << p << endl;
+	}
+	cout << dealer << endl;
 }
 
